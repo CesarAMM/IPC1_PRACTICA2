@@ -1,21 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ipc1_practica2;
 
-/**
- *
- * @author cesar.monroy
- */
+import java.io.Console;
+import java.util.Scanner;
+import school.poo.*;
+
 public class IPC1_PRACTICA2 {
 
-    /**
-     * @param args the command line arguments
-     */
+    private static Alumno alumnos[] = new Alumno[100];
+    private static Profesor profesores[] = new Profesor[20];
+    private static Curso cusros[] = new Curso[15];
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        Scanner scanner;
+        int dato =0;
+        boolean estado = true;
+        do{
+            
+        }while(estado);
     }
     
 }
