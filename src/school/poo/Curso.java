@@ -3,6 +3,7 @@ public class Curso {
     private int Id;
     private int Codigo;
     private String Nombre;
+    private float Nota;
 
     public Curso() {
     }
@@ -11,8 +12,24 @@ public class Curso {
         this.Id = Id;
         this.Codigo = Codigo;
         this.Nombre = Nombre;
+        this.Nota = 0;
+    }
+    
+    public Curso(int Id, int Codigo, String Nombre, float Nota) {
+        this.Id = Id;
+        this.Codigo = Codigo;
+        this.Nombre = Nombre;
+        this.Nota = Nota;
     }
 
+    public float getNota() {
+        return Nota;
+    }
+
+    public void setNota(float Nota) {
+        this.Nota = Nota;
+    }
+    
     public int getId() {
         return Id;
     }
