@@ -20,4 +20,11 @@ public class consola {
         }
         return valor;
     }
+    
+    public static void strErrorFueraRango(){
+        System.out.println("\n"
+                + "\t**********************************************\n"
+                + "\t**  Has ingresado un nuemro fuera de rango  **\n"
+                + "\t**********************************************\n");
+    }
 }

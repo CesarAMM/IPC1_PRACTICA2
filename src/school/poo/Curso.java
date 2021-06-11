@@ -4,9 +4,8 @@ public class Curso {
     private int Codigo;
     private String Nombre;
     private float Nota;
-
-    public Curso() {
-    }
+    
+    public Curso() {}
 
     public Curso(int Id, int Codigo, String Nombre) {
         this.Id = Id;

@@ -6,19 +6,9 @@ public class Alumno {
    private String Nombre;
    private String FechaIngreso;
    private char Genero;
-   private String[][] Curso;//[CantidadCursos][2]
+   private Curso[] Curso;
 
-    public Alumno() {
-    }
-
-    public Alumno(int Id, int Carnet, String Nombre, String FechaIngreso, char Genero, String[][] Curso) {
-        this.Id = Id;
-        this.Carnet = Carnet;
-        this.Nombre = Nombre;
-        this.FechaIngreso = FechaIngreso;
-        this.Genero = Genero;
-        this.Curso = Curso;
-    }
+    public Alumno() {}
 
     public Alumno(int Id, int Carnet, String Nombre, String FechaIngreso, char Genero) {
         this.Id = Id;
@@ -26,6 +16,7 @@ public class Alumno {
         this.Nombre = Nombre;
         this.FechaIngreso = FechaIngreso;
         this.Genero = Genero;
+        this.Curso = new Curso[15];
     }
 
     public int getId() {
@@ -68,12 +59,15 @@ public class Alumno {
         this.Genero = Genero;
     }
 
-    public String[][] getCurso() {
+    public Curso[] getCurso() {
         return Curso;
     }
 
-    public void setCurso(String[][] Curso) {
-        this.Curso = Curso;
+    public void setCurso(Curso Curso, int i) {
+        this.Curso[i] = Curso;
     }
    
+    public Curso getCurso(int i){
+        return this.Curso[i];
+    }
 }
