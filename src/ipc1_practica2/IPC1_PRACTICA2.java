@@ -142,7 +142,15 @@ public class IPC1_PRACTICA2 {
                 indice = consola.inputInt("-->>");
             }while(indice == 0);
             switch(indice){
-                
+                case 1:
+                    CargarAlumnos();
+                    break;
+                case 2:
+                    CargaProfesores();
+                    break;
+                case 4:
+                    System.out.println("\n\n------Regresando al Menu inicial -------\n\n");
+                    break;
                 default:
                     consola.strErrorFueraRango();
                     break;
