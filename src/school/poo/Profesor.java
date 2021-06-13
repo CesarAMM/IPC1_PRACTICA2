@@ -7,7 +7,7 @@ public class Profesor {
     private String FechaNacimiento;
     private String FechaContratacion;
     private char Genero;
-    private String[] Cursos;//[CantidadCursos]
+    private Curso[] Cursos;//[CantidadCursos]
 
     public Profesor() {
     }
@@ -19,9 +19,10 @@ public class Profesor {
         this.FechaNacimiento = FechaNacimiento;
         this.FechaContratacion = FechaContratacion;
         this.Genero = Genero;
+        this.Cursos = new  Curso[15];
     }
 
-    public Profesor(int Id, int Registo, String Nombre, String FechaNacimiento, String FechaContratacion, char Genero, String[] Cursos) {
+    public Profesor(int Id, int Registo, String Nombre, String FechaNacimiento, String FechaContratacion, char Genero, Curso[] Cursos) {
         this.Id = Id;
         this.Registo = Registo;
         this.Nombre = Nombre;
@@ -79,12 +80,38 @@ public class Profesor {
         this.Genero = Genero;
     }
 
-    public String[] getCursos() {
+    public Curso[] getCursos() {
         return Cursos;
     }
 
-    public void setCursos(String[] Cursos) {
+    public void setCursos(Curso[] Cursos) {
         this.Cursos = Cursos;
+    }
+     
+        public Profesor getProfesor(Profesor[] profesores, int id){
+        for (int i = 0; i < profesores.length; i++) {
+            if(profesores[i] != null){
+                if(profesores[i].getId() == id){
+                    return profesores[i];//Encontramos al alumnos
+                }
+            }
+        }
+        return null;//Recorio todo el ciclo y no encontro al alumno
+    }
+    
+    public boolean getCursoProfesor(Curso[] curso, int id){
+        for (int i = 0; i < curso.length; i++) {
+            if(curso[i] != null){
+                if(curso[i].getId() == id){
+                  return true;//El curso si lo tiene
+                }
+            }
+        }
+        return false;//El curso no lo tiene el alumno
+    }
+    
+    public void setCursoProfesor(Curso curso, int i){
+        this.Cursos[i] = new Curso(curso.getId(), curso.getCodigo(), curso.getNombre());
     }
     
 }

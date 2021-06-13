@@ -70,4 +70,31 @@ public class Alumno {
     public Curso getCurso(int i){
         return this.Curso[i];
     }
+    
+    public Alumno getAlumno(Alumno[] alumnos, int id){
+        for (int i = 0; i < alumnos.length; i++) {
+            if(alumnos[i] != null){
+                if(alumnos[i].getId() == id){
+                    return alumnos[i];//Encontramos al alumnos
+                }
+            }
+        }
+        return null;//Recorio todo el ciclo y no encontro al alumno
+    }
+    
+    public boolean getCursoAlumno(Curso[] curso, int id){
+        for (int i = 0; i < curso.length; i++) {
+            if(curso[i] != null){
+                if(curso[i].getId() == id){
+                  return true;//El curso si lo tiene
+                }
+            }
+        }
+        return false;//El curso no lo tiene el alumno
+    }
+    
+    public void setCursoAlumno(Curso curso, int i){
+        this.Curso[i] = new Curso(curso.getId(), curso.getCodigo(), curso.getNombre());
+    }
+    
 }

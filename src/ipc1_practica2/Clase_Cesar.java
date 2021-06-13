@@ -4,8 +4,7 @@ import static ipc1_practica2.IPC1_PRACTICA2.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import school.poo.Alumno;
-import school.poo.Profesor;
+import school.poo.*;
 
 public class Clase_Cesar {
     
@@ -145,9 +144,147 @@ public class Clase_Cesar {
         }
     }
     
+    public static void CargaAsignacionAlumnos(){
+        String datos_a = LeerArchivo(consola.inputString("Ingrese La ruta del Archivo para la carga de asignaciones Alumnos:\n-->"));
+        String datos[] = datos_a.split("\n");
+        for(int i = 0; i< datos.length; i++){
+            if(i > 0){
+                try {
+                    int IdAlumno = Integer.parseInt(datos[i].split(",")[0].trim());
+                    int IdCurso = Integer.parseInt(datos[i].split(",")[1].trim());
+                    if(IdCurso > 0 && IdAlumno > 0){
+                        Alumno alumno = new Alumno().getAlumno(alumnos, IdAlumno);//Almacenamos al alumnos
+                        Curso curso = new Curso().getCurso(cusros, IdCurso);
+                        if(alumno != null && curso != null){//Validamos que el alumno y el curso si exista
+                            if(!alumno.getCursoAlumno(alumno.getCurso(), IdCurso)){//Validamos si ya con el curso
+                                for (int j = 0; j < alumnos.length; j++) {
+                                    if(alumnos[j] != null){
+                                        if(alumnos[j].getId() == IdAlumno){
+                                            for (int k = 0; k < alumnos[j].getCurso().length; k++) {
+                                                if(alumnos[j].getCurso()[k]==null){
+                                                    alumnos[j].setCursoAlumno(curso, k);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }else{
+                                System.out.println("El cuso ya lo tiene asignado");
+                            }
+                        }else{
+                            if(alumno == null){//el alumno no existe
+                                System.out.println("El alumno no existe");
+                            }
+                            if(curso == null){//El curso no existe
+                                System.out.println("El curso no existe");
+                            }
+                        }
+                    }else{
+                        System.out.println("error en la fecha");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error en el formato de algo");
+                    System.out.println(e);
+                }
+            }
+        }
+    }
+    
+    public static void CargaAsignacionProfesor(){
+        String datos_a = LeerArchivo(consola.inputString("Ingrese La ruta del Archivo para la carga de asignacionesProfesor:\n-->"));
+        String datos[] = datos_a.split("\n");
+        for(int i = 0; i< datos.length; i++){
+            if(i > 0){
+                try {
+                    int IdProfesor = Integer.parseInt(datos[i].split(",")[0].trim());
+                    int IdCurso = Integer.parseInt(datos[i].split(",")[1].trim());
+                    if(IdCurso > 0 && IdProfesor > 0){
+                        Profesor profesor = new Profesor().getProfesor(profesores, IdProfesor);//Almacenamos al alumnos
+                        Curso curso = new Curso().getCurso(cusros, IdCurso);
+                        if(profesor != null && curso != null){//Validamos que el alumno y el curso si exista
+                            if(!profesor.getCursoProfesor(profesor.getCursos(), IdCurso)){//Validamos si ya con el curso
+                                for (int j = 0; j < profesores.length; j++) {
+                                    if(profesores[j] != null){
+                                        if(profesores[j].getId() == IdProfesor){
+                                            for (int k = 0; k < profesores[j].getCursos().length; k++) {
+                                                if(profesores[j].getCursos()[k]==null){
+                                                    profesores[j].setCursoProfesor(curso, k);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }else{
+                                System.out.println("El cuso ya lo tiene asignado");
+                            }
+                        }else{
+                            if(profesor == null){//el alumno no existe
+                                System.out.println("El alumno no existe");
+                            }
+                            if(curso == null){//El curso no existe
+                                System.out.println("El curso no existe");
+                            }
+                        }
+                    }else{
+                        System.out.println("error en la fecha");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error en el formato de algo");
+                    System.out.println(e);
+                }
+            }
+        }
+    }
+    
+    public static void CargaCursos(){
+        String datos_a = LeerArchivo(consola.inputString("Ingrese La ruta del Archivo para la carga de los Cursos:\n-->"));
+        String datos[] = datos_a.split("\n");
+        for(int i = 0; i< datos.length; i++){
+            if(i > 0){
+                try {
+                    int Id = Integer.parseInt(datos[i].split(",")[0].trim());
+                    int Codigo = Integer.parseInt(datos[i].split(",")[1].trim());
+                    String Nombre = datos[i].split(",")[2].trim();
+                    if(Id > 0 && Codigo > 0 && Nombre.length() != 0){
+                        if(cusros[14] == null){
+                            for (int j = 0; j < cusros.length; j++) {
+                                if(cusros[j] != null){
+                                    if(cusros[j].getId() == Id || cusros[j].getCodigo()== Codigo || cusros[j].getNombre().equals(Nombre)){
+                                        System.out.println("Este alumno tiene el mismo alumno");
+                                        System.out.println("Base de Datos: "+ cusros[j].getId() + " Nombre: " + cusros[j].getNombre());
+                                        System.out.println("En el Archivo: " + Id + " Nombre: " + Nombre);
+                                        break;
+                                    }
+                                }else{
+                                    System.out.println("Ingresamos a crear un nuevo alumnos");
+                                    cusros[j] = new Curso(Id, Codigo, Nombre);
+                                    System.out.println("Nuevo Alumno\n Id: "+ cusros[j].getId() + " Nombre: "+ cusros[j].getNombre());
+                                    break;
+                                }
+                            }
+                        }else{
+                            System.out.println("*******Eroror Ya no hay Capacidad para mas cursos.******");
+                        }
+                    }else{
+                        System.out.println("error en la fecha");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error en el formato de algo");
+                    System.out.println(e);
+                }
+            }
+        }
+    }
+    
     public static String LeerArchivo(String srtRuta){
         //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\CargaAlumnos.csv
         //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\CargaProfesores.csv
+        //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\CargaCursos.csv
+        
+        //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\AsigncacionAlumnos.csv
+        //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\AsigncacionProfesores.csv
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;

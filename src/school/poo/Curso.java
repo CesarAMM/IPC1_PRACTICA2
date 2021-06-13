@@ -53,4 +53,14 @@ public class Curso {
         this.Nombre = Nombre;
     }
     
+    public Curso getCurso(Curso[] curso, int Id){
+        for (int i = 0; i < curso.length; i++) {
+            if(curso[i] != null){
+                if(curso[i].getId() == Id){
+                    return curso[i];
+                }
+            }
+        }
+        return null;
+    }
 }
