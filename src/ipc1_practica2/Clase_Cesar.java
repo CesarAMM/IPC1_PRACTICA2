@@ -278,6 +278,48 @@ public class Clase_Cesar {
         }
     }
     
+    public static void CargaNotas(){
+        String datos_a = LeerArchivo(consola.inputString("Ingrese La ruta del Archivo para la carga de Notas:\n-->"));
+        String datos[] = datos_a.split("\n");
+        for(int i = 0; i< datos.length; i++){
+            if(i > 0){
+                try {
+                    int IdAlumno = Integer.parseInt(datos[i].split(",")[0].trim());
+                    int IdCurso = Integer.parseInt(datos[i].split(",")[1].trim());
+                    float Nota = Float.parseFloat(datos[i].split(",")[2].trim());
+                    if(IdAlumno > 0 && IdCurso > 0 && Nota >= 0 && Nota <= 100){
+                        for (int j = 0; j < alumnos.length; j++) {
+                            if(alumnos[j] != null){
+                                if(alumnos[j].getId() == IdAlumno){
+                                    for (int k = 0; k < alumnos[j].getCurso().length; k++) {
+                                        if(alumnos[j].getCurso()[k] != null){
+                                            if(alumnos[j].getCurso()[k].getId() == IdCurso){
+                                                alumnos[j].getCurso()[k].setNota(Nota);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        if(IdAlumno <= 0){
+                            System.out.println("El id del alumno no puede ser negativo");
+                        }
+                        if(IdCurso <= 0){
+                            System.out.println("el id del curso no puede ser negativo");
+                        }
+                        if(Nota < 0 && Nota > 100){
+                            System.out.println("La nota esta fuera de rango");
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error en el formato de algo");
+                    System.out.println(e);
+                }
+            }
+        }
+    }
+    
     public static String LeerArchivo(String srtRuta){
         //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\CargaAlumnos.csv
         //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\CargaProfesores.csv
