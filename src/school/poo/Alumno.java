@@ -1,5 +1,9 @@
 package school.poo;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class Alumno {
    private int Id;
    private int Carnet;
@@ -94,7 +98,35 @@ public class Alumno {
     }
     
     public void setCursoAlumno(Curso curso, int i){
-        this.Curso[i] = new Curso(curso.getId(), curso.getCodigo(), curso.getNombre());
+        this.Curso[i] = new Curso(curso.getId(), curso.getCodigo(), curso.getNombre(), 1);
+    }
+    
+    public int def_Edad(){
+        Calendar fecha = new GregorianCalendar();
+        int mesAC = fecha.get(Calendar.MONTH) +1;
+        int diaAC = fecha.get(Calendar.DATE);
+        int ayoAC = fecha.get(Calendar.YEAR);
+        int dia = Integer.parseInt(FechaIngreso.split("/")[0]);
+        int mes = Integer.parseInt(FechaIngreso.split("/")[1]);
+        int ayo = Integer.parseInt(FechaIngreso.split("/")[2]);
+        int Edad = 0;
+        Edad = ayoAC - ayo;
+        if(mes >= mesAC){
+            Edad--;
+        }
+        return Edad;
+    }
+    
+    public String def_genero(){
+        switch(Genero){
+            case 'F':
+            case 'f':
+                return "Mujer";
+            case 'M':
+            case 'm':
+                return "Hombre";
+        }
+        return "";
     }
     
 }

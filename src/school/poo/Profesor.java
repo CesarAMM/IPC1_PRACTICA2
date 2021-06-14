@@ -111,7 +111,7 @@ public class Profesor {
     }
     
     public void setCursoProfesor(Curso curso, int i){
-        this.Cursos[i] = new Curso(curso.getId(), curso.getCodigo(), curso.getNombre());
+        this.Cursos[i] = new Curso(curso.getId(), curso.getCodigo(), curso.getNombre(),1);
     }
     
 }

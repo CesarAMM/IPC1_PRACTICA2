@@ -2,8 +2,11 @@ package ipc1_practica2;
 
 import static ipc1_practica2.IPC1_PRACTICA2.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import school.poo.*;
 
 public class Clase_Cesar {
@@ -15,8 +18,16 @@ public class Clase_Cesar {
                 contador = 0;
                 String newUsers = consola.inputString("Ingrese usuario nuevo: ");
                 do{
-                    String newPass_1 = consola.inputString("Ingrese la Contraseña: ");
-                    String newPass_2 = consola.inputString("Confirme la contraseña: ");
+                    System.out.print("Ingrese la Contraseña: ");
+                    char[] newPass1 = System.console().readPassword();
+                    char[] newPass2 = System.console().readPassword();
+                    String newPass_1 ="", newPass_2=""; 
+                    for (int i = 0; i < newPass1.length; i++) {
+                        newPass_1 += newPass1[i];
+                    }
+                    for (int i = 0; i < newPass2.length; i++) {
+                        newPass_2 += newPass2[i];
+                    }
                     if(newPass_1.equals(newPass_2)){
                         for(int i = 0; i < users.length; i++){
                             contador++;
@@ -67,18 +78,15 @@ public class Clase_Cesar {
                     int dia = Integer.parseInt(Fecha.split("/")[0].trim());
                     int mes = Integer.parseInt(Fecha.split("/")[1].trim());
                     int ayo = Integer.parseInt(Fecha.split("/")[2].trim());
-                    if((dia> 0 && dia< 32) && (mes > 0 && mes <13) && (ayo > 1950 && ayo < 2021) && Id > 0 && Carnet > 0){
+                    if((dia> 0 && dia< 32) && (mes > 0 && mes <13) && (ayo > 1900 && ayo <= 2021) && Id > 0 && Carnet > 0){
                         if(alumnos[99] == null){
                             for (int j = 0; j < alumnos.length; j++) {
                                 if(alumnos[j] != null){
                                     if(alumnos[j].getId() == Id|| alumnos[j].getCarnet() == Carnet){
-                                        System.out.println("Este alumno tiene el mismo alumno");
-                                        System.out.println("Base de Datos: "+ alumnos[j].getId() + " Nombre: " + alumnos[j].getNombre());
-                                        System.out.println("En el Archivo: " + Id + " Nombre: " + Nombre);
+                                        addToEndFile("Error en la linea ("+(i+2)+"): Carnet: "+ alumnos[j].getCarnet() +" Nombre"+ alumnos[j].getNombre());
                                         break;
                                     }
                                 }else{
-                                    System.out.println("Ingresamos a crear un nuevo alumnos\n\n");
                                     alumnos[j] = new Alumno(Id, Carnet, Nombre, Fecha, Genero);
                                     System.out.println("Nuevo Alumno\n Id: "+ alumnos[j].getId() + " Nombre: "+ alumnos[j].getNombre());
                                     break;
@@ -86,11 +94,14 @@ public class Clase_Cesar {
                             }
                         }
                     }else{
-                        System.out.println("error en la fecha");
+                        addToEndFile("Error en la Liena("+(i+2)+"): Por la fecha en mal formato");
                     }
                 } catch (Exception e) {
-                    System.out.println("Error en el formato de algo");
-                    System.out.println(e);
+                    addToEndFile("Error en la Liena("+(i+2)+"):ID: "+datos[i].split(",")[0].trim() +""
+                            + "Carnet: "+datos[i].split(",")[1].trim()+""
+                                    + "Nombre: "+datos[i].split(",")[2].trim()
+                                    + "Fecha: "+datos[i].split(",")[3].trim()
+                                    + "Genero: "+ datos[i].split(",")[4].trim().charAt(0));
                 }
             }
         }
@@ -120,25 +131,25 @@ public class Clase_Cesar {
                             for (int j = 0; j < profesores.length; j++) {
                                 if(profesores[j] != null){
                                     if(profesores[j].getId() == Id || profesores[j].getRegisto()== Registo){
-                                        System.out.println("Este alumno tiene el mismo alumno");
-                                        System.out.println("Base de Datos: "+ profesores[j].getId() + " Nombre: " + profesores[j].getNombre());
-                                        System.out.println("En el Archivo: " + Id + " Nombre: " + Nombre);
+                                        addToEndFile(""
+                                                + "Error en la line("+(i+2)+"): Ya existe este profesor: "+ Nombre+" Registro: "+ Registo);
                                         break;
                                     }
                                 }else{
-                                    System.out.println("Ingresamos a crear un nuevo alumnos\n\n");
                                     profesores[j] = new Profesor(Id, Registo, Nombre, FechaNacimiento, FechaContratacion, Genero);
-                                    System.out.println("Nuevo Alumno\n Id: "+ profesores[j].getId() + " Nombre: "+ profesores[j].getNombre());
                                     break;
                                 }
                             }
                         }
                     }else{
-                        System.out.println("error en la fecha");
+                        addToEndFile("Error en la Liena("+(i+2)+"): Por la fecha en mal formato");
                     }
                 } catch (Exception e) {
-                    System.out.println("Error en el formato de algo");
-                    System.out.println(e);
+                    addToEndFile("Error en la Liena("+(i+2)+"):ID: "+datos[i].split(",")[0].trim() +""
+                            + "Carnet: "+datos[i].split(",")[1].trim()+""
+                                    + "Nombre: "+datos[i].split(",")[2].trim()
+                                    + "Fecha: "+datos[i].split(",")[3].trim()
+                                    + "Genero: "+ datos[i].split(",")[4].trim().charAt(0));
                 }
             }
         }
@@ -170,22 +181,22 @@ public class Clase_Cesar {
                                     }
                                 }
                             }else{
-                                System.out.println("El cuso ya lo tiene asignado");
+                                addToEndFile("El cuso ya lo tiene asignado Linea "+(i)+"");
                             }
                         }else{
                             if(alumno == null){//el alumno no existe
-                                System.out.println("El alumno no existe");
+                                addToEndFile("El alumno no existe Linea "+(i)+"");
                             }
                             if(curso == null){//El curso no existe
-                                System.out.println("El curso no existe");
+                                addToEndFile("El curso no existe Linea "+(i)+"");
                             }
                         }
                     }else{
-                        System.out.println("error en la fecha");
+                        addToEndFile("error en la fecha Linea "+(i)+"");
                     }
                 } catch (Exception e) {
-                    System.out.println("Error en el formato de algo");
-                    System.out.println(e);
+                    addToEndFile("Error en el formato de algo Linea "+(i)+"");
+                    
                 }
             }
         }
@@ -217,22 +228,21 @@ public class Clase_Cesar {
                                     }
                                 }
                             }else{
-                                System.out.println("El cuso ya lo tiene asignado");
+                                addToEndFile("El cuso ya lo tiene asignado Linea "+(i)+"");
                             }
                         }else{
                             if(profesor == null){//el alumno no existe
-                                System.out.println("El alumno no existe");
+                                addToEndFile("El alumno no existe Linea "+(i)+"");
                             }
                             if(curso == null){//El curso no existe
-                                System.out.println("El curso no existe");
+                                addToEndFile("El curso no existe Linea "+(i)+"");
                             }
                         }
                     }else{
-                        System.out.println("error en la fecha");
+                        addToEndFile("error en la fecha Linea "+(i)+"");
                     }
                 } catch (Exception e) {
-                    System.out.println("Error en el formato de algo");
-                    System.out.println(e);
+                    addToEndFile("Error en el formato de algo Linea "+(i)+"");
                 }
             }
         }
@@ -252,27 +262,25 @@ public class Clase_Cesar {
                             for (int j = 0; j < cusros.length; j++) {
                                 if(cusros[j] != null){
                                     if(cusros[j].getId() == Id || cusros[j].getCodigo()== Codigo || cusros[j].getNombre().equals(Nombre)){
-                                        System.out.println("Este alumno tiene el mismo alumno");
-                                        System.out.println("Base de Datos: "+ cusros[j].getId() + " Nombre: " + cusros[j].getNombre());
-                                        System.out.println("En el Archivo: " + Id + " Nombre: " + Nombre);
+                                        addToEndFile("Error en el formato de algo Linea "+(i)+""
+                                                + "El Curso ya se encuentra: Base de Datos: "+ cusros[j].getId() + " Nombre: " + cusros[j].getNombre()+"");
                                         break;
                                     }
                                 }else{
-                                    System.out.println("Ingresamos a crear un nuevo alumnos");
                                     cusros[j] = new Curso(Id, Codigo, Nombre);
-                                    System.out.println("Nuevo Alumno\n Id: "+ cusros[j].getId() + " Nombre: "+ cusros[j].getNombre());
                                     break;
                                 }
                             }
                         }else{
-                            System.out.println("*******Eroror Ya no hay Capacidad para mas cursos.******");
+                            addToEndFile("*******error Ya no hay Capacidad para mas cursos.******"
+                                    + "\nId:" + datos[i].split(",")[0].trim()+""
+                                            + "\nCodigo: "+datos[i].split(",")[1].trim());
                         }
                     }else{
-                        System.out.println("error en la fecha");
+                        addToEndFile("error en la fecha");
                     }
                 } catch (Exception e) {
-                    System.out.println("Error en el formato de algo");
-                    System.out.println(e);
+                    addToEndFile("Error en el formato de algo");
                 }
             }
         }
@@ -303,18 +311,17 @@ public class Clase_Cesar {
                         }
                     }else{
                         if(IdAlumno <= 0){
-                            System.out.println("El id del alumno no puede ser negativo");
+                            addToEndFile("El id del alumno no puede ser negativo");
                         }
                         if(IdCurso <= 0){
-                            System.out.println("el id del curso no puede ser negativo");
+                            addToEndFile("el id del curso no puede ser negativo");
                         }
                         if(Nota < 0 && Nota > 100){
-                            System.out.println("La nota esta fuera de rango");
+                            addToEndFile("La nota esta fuera de rango");
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("Error en el formato de algo");
-                    System.out.println(e);
+                    addToEndFile("Error en el formato de algo");
                 }
             }
         }
@@ -327,10 +334,10 @@ public class Clase_Cesar {
         
         //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\AsigncacionAlumnos.csv
         //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\AsigncacionProfesores.csv
+        //C:\Users\cesar.monroy\Desktop\ipc\LecturaArchivos_CSV\CargaNotas.csv
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
-
         try {
         // Apertura del fichero y creacion de BufferedReader para poder
         // hacer una lectura comoda (disponer del metodo readLine()).
@@ -360,4 +367,298 @@ public class Clase_Cesar {
         }
         return "";
     }
+    
+    public static void CrearReportes(String NameReport, String strRepote){
+        String ArcchivoHTML = ""
+                + "<!DOCTYPE html>\n" +"<html lang=\"en\">\n" +"<head>\n"
+                + "<meta charset=\"UTF-8\">\n"
+                + "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n" +
+                "<meta http-equiv='X-AU-Compatible' content='ie=edge'>\n" +
+                "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x\" crossorigin=\"anonymous\">\n" +
+                "<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4\" crossorigin=\"anonymous\"></script>\n" +
+                "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.7.0/css/all.css\" integrity=\"sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ\" crossorigin=\"anonymous\"/>\n" +
+                "<title>"+NameReport+"</title>" +
+                "</head>\n" +
+                "<body class=\"bg-light container-fluid\">"
+                + ""+strRepote+""
+                + "</body>\n" +
+                "</html>";
+        File f = new File(NameReport+".html");
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+        try {
+            FileWriter file = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(file);
+            bw.write(ArcchivoHTML);
+            bw.close();
+            System.out.println("Se a genereado el reporte");
+        } catch (Exception e) {
+        }
+    }
+    
+    public static String GenerarReporteAlumnos(){
+        String HTML_tbody = "";
+        for (int i = 0; i < alumnos.length; i++) {
+            if(alumnos[i] != null){
+                HTML_tbody += "<tr>";
+                HTML_tbody += ""
+                        + "<th scope='col'>"+(i+1)+"</th>"
+                        + "<td>"+alumnos[i].getCarnet()+"</td>"
+                        + "<td>"+alumnos[i].getNombre()+"</td>"
+                        + "<td>"+alumnos[i].def_Edad()+"</td>"
+                        + "<td>"+alumnos[i].def_genero()+"</td>";
+                HTML_tbody += "</tr>";
+            }
+        }
+        return consola.defaultHTML_BODY("Reporte de Alumnos", "Carne,Nombre,Edad,Genero").replace("Info_TBODY", HTML_tbody);
+    }
+    
+    public static String GenerarReporteAsignacionAlumnos(){
+        String HTML_tbody = ""; int contador =0;
+        for(int i = 0; i < alumnos.length; i++){
+            if(alumnos[i] != null){
+                for (int j = 0; j < alumnos[i].getCurso().length; j++) {
+                    if(alumnos[i].getCurso()[j] != null){
+                        contador++;
+                        HTML_tbody += "<tr>";
+                        HTML_tbody += ""
+                                + "<th scope='col'>"+(contador)+"</th>"
+                                + "<td>"+alumnos[i].getCarnet()+"</td>"
+                                + "<td>"+alumnos[i].getNombre()+"</td>"
+                                + "<td>"+alumnos[i].getCurso()[j].getCodigo()+"</td>"
+                                + "<td>"+alumnos[i].getCurso()[j].getNombre()+"</td>"
+                                + "<td>"+alumnos[i].getCurso()[j].getFecha()+"</td>";
+                        HTML_tbody += "</tr>";
+                    }
+                }
+            }
+        }
+        return consola.defaultHTML_BODY("Reporte de Asignaciones de Alumnos", "Carne,Nombre,Codigo Curso, Curso, Fecha Asignacion").replace("Info_TBODY", HTML_tbody);
+    }
+    
+    public static String GenerarReporteAsignacionesProfesores(){
+        String HTML_tbody = "";int contador = 0;
+        for(int i = 0; i < profesores.length; i++){
+            if(profesores[i] != null){
+                for (int j = 0; j < profesores[i].getCursos().length; j++) {
+                    if(profesores[i].getCursos()[j] != null){
+                        contador++;
+                        HTML_tbody += "<tr>";
+                        HTML_tbody += ""
+                                + "<th scope='col'>"+(contador)+"</th>"
+                                + "<td>"+profesores[i].getRegisto()+"</td>"
+                                + "<td>"+profesores[i].getNombre()+"</td>"
+                                + "<td>"+profesores[i].getCursos()[j].getCodigo()+"</td>"
+                                + "<td>"+profesores[i].getCursos()[j].getNombre()+"</td>"
+                                + "<td>"+profesores[i].getCursos()[j].getFecha()+"</td>";
+                        HTML_tbody += "</tr>";
+                    }
+                }
+            }
+        }
+        return consola.defaultHTML_BODY("Reporte de Asignaciones de Profesores", "Registro,Nombre,Codigo Curso, Curso, Fecha Asignacion").replace("Info_TBODY", HTML_tbody);
+    }
+    
+    public static String GenerarRepoteGeneralCurso(){
+        String[][] info = contadorAlumnos_vs_Curso();
+        String HTML_tbody = "";
+        for(int i = 0; i < info.length; i++){
+            if(info[i] != null){
+                HTML_tbody += ""
+                        + "<tr>"
+                            + "<th>"+(i+1)+"</th>"
+                            + "<td>"+info[i][0]+"</td>"
+                            + "<td>"+info[i][1]+"</td>"
+                            + "<td>"+info[i][2]+"</td>"
+                        + "</tr>";
+            }
+        }
+        return consola.defaultHTML_BODY("Reporte General de Cursos", "Codigo Curso, Curso, Cantidad").replace("Info_TBODY", HTML_tbody);
+    }
+    
+    public static String GenerarReporteCursoEspecifico(){
+        Curso curso = BuscarCurso();
+        Profesor profesor = BuscarProfesor(curso);
+        String[][] listadoAlumnos = BuscarAlumnos(curso);
+        String HTML_tbody = "";
+        for(int i = 0; i < listadoAlumnos.length; i++){
+            if(listadoAlumnos[i] != null){
+                String Set_Color ="";
+                if(Float.parseFloat(listadoAlumnos[i][2]) > 60.0){
+                    Set_Color = "Aprobado";
+                }else{
+                    Set_Color = "Reprobado";
+                }
+                HTML_tbody += ""
+                        + "<tr>"
+                            + "<th>"+(i+1)+"</th>"
+                            + "<td>"+listadoAlumnos[i][0]+"</td>"
+                            + "<td>"+listadoAlumnos[i][1]+"</td>"
+                            + "<td>"+listadoAlumnos[i][2]+"</td>"
+                            + "<td>"+Set_Color+"</td>"
+                        + "</tr>";
+            }
+        }
+        String nameReport = ""+ curso.getCodigo()+": " + curso.getNombre() +" -- " + profesor.getRegisto() + ": " + profesor.getNombre();
+        return consola.defaultHTML_BODY(nameReport, "Carnet, Nombre, Nota, Aprobado/Reprobado").replace("Info_TBODY", HTML_tbody);
+    }
+    
+    public static String GenerarReporteTop_5(){
+        Curso curso = BuscarCurso();
+        Profesor profesor = BuscarProfesor(curso);
+        String[][] listaAlumnos = MetodoBurbuja(BuscarAlumnos(curso));
+        String HTML_tbody = "";
+        for (int i = 5; i >=0; i--) {
+            if(listaAlumnos[i][0] != null){
+                HTML_tbody += "<tr>";
+                HTML_tbody += ""
+                        + "<th scope='col'>"+(i+1)+"</th>"
+                        + "<td>"+listaAlumnos[i][0]+"</td>"
+                        + "<td>"+listaAlumnos[i][1]+"</td>"
+                        + "<td>"+listaAlumnos[i][2]+"</td>";
+                HTML_tbody += "</tr>";
+            }
+        }
+        String nameReport = ""+ curso.getCodigo()+": " + curso.getNombre() +" -- " + profesor.getRegisto() + ": " + profesor.getNombre();
+        return consola.defaultHTML_BODY(nameReport, "Carnet, Nombre, Nota").replace("Info_TBODY", HTML_tbody);
+    }
+    
+    public static String[][] MetodoBurbuja(String[][] alumnos){
+        for (int i = 0; i < (alumnos.length - 1); i++) {
+            for (int j = 0; j < (alumnos.length -1); j++) {
+                float Notaacutial = Float.parseFloat(alumnos[j][2]);
+                float NotaSig = Float.parseFloat(alumnos[j+1][2]);
+                if(Notaacutial > NotaSig){
+                    String carnetaux = alumnos[j][0];
+                    String NombreAux = alumnos[j][1];
+                    String NotaAux = alumnos[j][2];
+                    alumnos[j][0] = alumnos[j+1][0];
+                    alumnos[j][1] = alumnos[j+1][1];
+                    alumnos[j][2] = alumnos[j+1][2];
+                    alumnos[j+1][0] = carnetaux;
+                    alumnos[j+1][1] = NombreAux;
+                    alumnos[j+1][2] = NotaAux;
+                }
+            }
+        }
+      return alumnos;
+    }
+    
+    public static String[][] BuscarAlumnos(Curso curso){
+        String listadoAlumnos = "";
+        for (int i = 0; i < alumnos.length; i++) {//Busqueda de Los alumnos asignados a un curso especifico
+            if(alumnos[i] != null){
+                for (int j = 0; j < alumnos[i].getCurso().length; j++) {
+                    if(alumnos[i].getCurso()[j] != null){
+                        if(alumnos[i].getCurso()[j].getCodigo() == curso.getCodigo()){
+                            listadoAlumnos+= ""+alumnos[i].getCarnet()+","+alumnos[i].getNombre()+","+alumnos[i].getCurso()[j].getNota()+"\n";
+                        }
+                    }
+                }
+            }
+        }
+        String Listado[][] = new String[listadoAlumnos.split("\n").length][3];
+        for (int i = 0; i < Listado.length; i++) {
+            for (int j = 0; j < Listado[0].length; j++) {
+                Listado[i][j] = listadoAlumnos.split("\n")[i].split(",")[j];
+            }
+        }
+        return Listado;
+    }
+    
+    public static String[][] contadorAlumnos_vs_Curso(){
+        String[][] contador = new String[15][3];
+        for (int i = 0; i < cusros.length; i++) {
+            if(cusros[i] != null){
+                int CodigoCurso = cusros[i].getCodigo();
+                int CantidadEncontrados = 0;
+                for (int j = 0; j < alumnos.length; j++) {
+                    if(alumnos[j] != null){
+                        for (int k = 0; k < alumnos[j].getCurso().length; k++) {
+                            if(alumnos[j].getCurso()[k] != null){
+                                if(alumnos[j].getCurso()[k].getCodigo() == CodigoCurso){
+                                    CantidadEncontrados++;
+                                }
+                            }
+                        }
+                    }
+                }
+                for (int j = 0; j < contador.length; j++) {
+                    if(null == contador[j][0]){
+                        contador[j][0] = "" + cusros[i].getCodigo();
+                        contador[j][1] = cusros[i].getNombre();
+                        contador[j][2] = "" + CantidadEncontrados;
+                        break;
+                    }
+                    
+                }
+            }
+            
+        }
+        return contador;
+    }
+    
+    public static Profesor BuscarProfesor(Curso curso){
+        for (int i = 0; i < profesores.length; i++) {//Busqueda del profesro que tenga asignado el curso
+            if(profesores[i] != null){
+                for (int j = 0; j < profesores[i].getCursos().length; j++) {
+                    if(profesores[i].getCursos()[j] != null){
+                        if(profesores[i].getCursos()[j].getCodigo() == curso.getCodigo()){
+                            return profesores[i];
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    public static Curso BuscarCurso(){
+        int CodigoCurso = 0;
+        Curso curso = null;
+        do{
+            CodigoCurso =  consola.inputInt("Ingrese el Codigo del Curso: \n-->");
+            for (int i = 0; i < cusros.length; i++) {
+                if(cusros[i] != null){
+                    if(cusros[i].getCodigo() == CodigoCurso){
+                        curso = cusros[i];
+                        break;
+                    }
+                }
+            }
+            if(curso == null){
+                CodigoCurso = 0;
+                System.out.println("-----   El codigo de Curso no existe   ----");
+            }
+        }while(CodigoCurso == 0);
+        return curso;
+    }
+    
+    public static void addToEndFile(String data) {
+        FileWriter flwriter = null;
+        try {
+            flwriter = new FileWriter("Logs.txt", true); // True indica que se va a agregar datos al final
+            BufferedWriter bfwriter = new BufferedWriter(flwriter);
+            // Escribe los datos en el archivo
+            bfwriter.write(data + "\n");
+            bfwriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (flwriter != null) {
+                try {
+                    flwriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

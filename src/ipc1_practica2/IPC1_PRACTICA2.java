@@ -12,6 +12,7 @@ public class IPC1_PRACTICA2 {
     static String[][] users= new String[6][2];
     
     public static void main(String[] args) {
+
         Console cons = System.console();
         users[0][0] = "Admin";//Este es el usurio
         users[0][1] = "Admin";//Este es la contraseña
@@ -19,7 +20,12 @@ public class IPC1_PRACTICA2 {
         do{
             strMenuAdmin ="";
             String user = consola.inputString("Usuario: ");
-            String pass = consola.inputString("Password: ");
+            System.out.print("Password: ");
+            char[] password = System.console().readPassword();
+            String pass="";
+            for (int i = 0; i < password.length; i++) {
+                pass += password[i];
+            }
             for(int i = 0; i< users.length; i++){
                 if(users[i][0] != null && users[i][1] != null){
                     if(users[i][0].equals(user) && users[i][1].equals(pass)){
@@ -105,6 +111,7 @@ public class IPC1_PRACTICA2 {
     
     public static void MenuReporte(){
         int indice = 0;
+        String nameReport = "";
         do{
             do{
                 System.out.println("\n\n"
@@ -120,7 +127,48 @@ public class IPC1_PRACTICA2 {
                 indice = consola.inputInt("-->>");
             }while(indice == 0);
             switch(indice){
-                
+                case 1:
+                    nameReport ="";
+                    do{
+                        nameReport = consola.inputString("Ingrese el nombre del Reporte:\n-->");
+                    }while(nameReport.length() == 0);
+                    CrearReportes(nameReport, GenerarReporteAlumnos());
+                    break;
+                case 2:
+                    nameReport ="";
+                    do{
+                        nameReport = consola.inputString("Ingrese el nombre del Reporte:\n-->");
+                    }while(nameReport.length() == 0);
+                    CrearReportes(nameReport, GenerarReporteAsignacionAlumnos());
+                    break;
+                case 3:
+                    nameReport ="";
+                    do{
+                        nameReport = consola.inputString("Ingrese el nombre del Reporte:\n-->");
+                    }while(nameReport.length() == 0);
+                    CrearReportes(nameReport, GenerarReporteAsignacionesProfesores());
+                    break;
+                case 4:
+                    nameReport ="";
+                    do{
+                        nameReport = consola.inputString("Ingrese el nombre del Reporte:\n-->");
+                    }while(nameReport.length() == 0);
+                    CrearReportes(nameReport, GenerarRepoteGeneralCurso());
+                    break;
+                case 5:
+                    nameReport ="";
+                    do{
+                        nameReport = consola.inputString("Ingrese el nombre del Reporte:\n-->");
+                    }while(nameReport.length() == 0);
+                    CrearReportes(nameReport, GenerarReporteCursoEspecifico());
+                    break;
+                case 6:
+                    nameReport ="";
+                    do{
+                        nameReport = consola.inputString("Ingrese el nombre del Reporte:\n-->");
+                    }while(nameReport.length() == 0);
+                    CrearReportes(nameReport, GenerarReporteTop_5());
+                    break;
                 default:
                     consola.strErrorFueraRango();
                     break;
